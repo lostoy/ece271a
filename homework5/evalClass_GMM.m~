@@ -1,0 +1,8 @@
+function [result,error]=evalClass_GMM(D,p_BG,gmm_BG,p_FG,gmm_FG,mask)
+P_BG=zeros(K,N);
+for k=1:K
+    P_BG(k,:)=mvnpdf(D,gmm_BG.mu(:,k),diag(gmm_BG.sigma(:,k)));
+end
+
+P_1=gmm_BG.p'*P_BG;
+P_1=gmm_BG.p'*P_F

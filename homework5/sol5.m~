@@ -1,0 +1,47 @@
+load TrainingSamplesDCT_8_new.mat
+
+K=8;
+alld=[1 2 4 8 16 24 32 40 48 56 64];
+gmm_BG=cell(length(alld),5);
+
+for td=1:length(alld)
+    d=alld(td);
+    for iter=1:5
+        D=TrainsampleDCT_BG(:,1:d);
+        %random intialization
+        min_D=min(D);
+        max_D=max(D);
+        mu=diag(max_D-min_D)*rand(d,K)+repmat(min_D',1,K);
+        sigma=diag(max_D-min_D)*0.5*(ones(d,K)+rand(d,K));
+        p=rand(K,1);
+        p=p/sum(p);
+        gmm_BG{td,iter}=EM(D',K,mu,sigma,p,20,0.00001);
+    end
+end
+
+gmm_FG=cell(length(alld),5);
+
+for td=1:length(alld)
+    d=alld(td);
+    for iter=1:5
+        D=TrainsampleDCT_FG(:,1:d);
+        %random intialization
+        min_D=min(D);
+        max_D=max(D);
+        mu=diag(max_D-min_D)*rand(d,K)+repmat(min_D',1,K);
+        sigma=diag(max_D-min_D)*0.5*(ones(d,K)+rand(d,K));
+        p=rand(K,1);
+        p=p/sum(p);
+        gmm_FG{td,iter}=EM(D',K,mu,sigma,p,20,0.00001);
+    end
+end
+
+%%
+load testFeature.mat
+for td=1:length(alld)
+    for t_BG=1:5
+        for t_FG=1:5
+            [result,error]=evalClass_GMM(testFeature,gmm_BG{td,t_BG},gmm_FG{td,t_FG});
+        end
+    end
+end

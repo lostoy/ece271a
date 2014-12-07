@@ -1,0 +1,32 @@
+function obj=EM(D,K,mu0,sigma0,p,max_iter,min_inc)
+
+mu=mu0;
+sigma=sigma0;
+N=size(D,2);
+
+
+for iter=1:max_iter
+    mu0=mu;
+    P=zeros(K,N);
+    for k=1:K
+        P(k,:)=Dmvnpdf(D',mu(:,k)',diag(sigma(:,k)));
+    end
+    
+    h=diag(p)*P*diag(1./sum(diag(p)*P));
+    for k=1:K
+        mu(:,k)=sum(D*diag(h(k,:)),2)/sum(h(k,:));
+        sigma(:,k)=sum((D-repmat(mu(:,k),1,N)).^2*diag(h(k,:)),2)/sum(h(k,:));
+        p(k)=sum(h(k,:))/N;
+    end
+    
+    if(norm(mu-mu0,'fro')<min_inc*K*size(D,1))
+        break;
+    end
+end
+obj.mu=mu;
+obj.sigma=sigma;
+obj.p=p;
+obj.iter=iter;
+
+function P=Dmvnpdf(D,mu,sigma)
+P=(D-
