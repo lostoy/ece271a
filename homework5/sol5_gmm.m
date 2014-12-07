@@ -23,7 +23,8 @@ for K=allK
                 sigma=diag(max_D-min_D+1)*0.5*(ones(d,K)+rand(d,K));
                 p=rand(K,1);
                 p=p/sum(p);
-                gmm_BG{iter}=gmdistribution.fit(D,K,'CovType','diagonal','Regularize',0.001);
+                option=statset('MaxIter',2000);
+                gmm_BG{iter}=gmdistribution.fit(D,K,'CovType','diagonal','Regularize',0.001,'Options',option);
                 disp([';iter ' num2str(iter) '/5 ']);
             end
         %end
@@ -41,7 +42,8 @@ for K=allK
                 sigma=diag(max_D-min_D+1)*0.5*(ones(d,K)+rand(d,K));
                 p=rand(K,1);
                 p=p/sum(p);
-                gmm_FG{iter}=gmdistribution.fit(D,K,'CovType','diagonal','Regularize',0.001);
+                option=statset('MaxIter',2000);
+                gmm_FG{iter}=gmdistribution.fit(D,K,'CovType','diagonal','Regularize',0.001,'Options',option);
                 disp([';iter ' num2str(iter) '/5 ' ]);
             end
         %end
