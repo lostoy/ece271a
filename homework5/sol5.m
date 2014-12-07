@@ -77,7 +77,7 @@ for tK=1:length(allK)
         for t_BG=1:5
             for t_FG=1:5
                 [result,error(td,t_BG,t_FG)]=evalClass_GMM(testFeature(:,1:alld(td))',K,alld(td),p_BG,gmm_BG{t_BG},p_FG,gmm_FG{t_FG},mask);
-                disp([num2str(td) '/' num2str(length(alld)) ';iter ' num2str(t_BG*5-5+t_FG) '/25 ']);
+                disp([num2str(tK) '/' num2str(length(allK)) ';' num2str(td) '/' num2str(length(alld)) ';iter ' num2str(t_BG*5-5+t_FG) '/25 ']);
                 %imshow(result);
                 %pause(0.5);
                 %imwrite(result,['result_K' num2str(all(tK)) '_D' num2str(alld(td)) '_B' num2str(t_BG) '_F' num2str(t_FG) '_' num2str(error(td,t_BG,t_FG)) '.bmp']);
@@ -87,4 +87,9 @@ for tK=1:length(allK)
     end
     errors{1,tK}=error;
 end
+X=zeros(11,6);
+for i=1:6
+X(:,i)=mean(reshape(errors{i},11,25),2);end;
+plot(X)
+saveas(gca, 'errors.eps','epsc');
 save('errors.mat','errors');

@@ -24,7 +24,7 @@ for K=allK
 
                 %random permutation
                 mu=D(randperm(size(D,1),K),:)';
-                sigma=repmat(var
+                sigma=repmat(var(D)',1,K);
                 p=rand(K,1);
                 p=p/sum(p);
                 gmm_BG{iter}=EM(D',K,mu,sigma,p,2000,0.001);
@@ -39,10 +39,14 @@ for K=allK
             for iter=1:5
                 D=TrainsampleDCT_FG(:,1:d);
                 %random intialization
-                min_D=min(D);
-                max_D=max(D);
-                mu=diag(max_D-min_D)*randn(d,K)+repmat(min_D',1,K);
-                sigma=diag(max_D-min_D+1)*0.5*(ones(d,K)+rand(d,K));
+%                 min_D=min(D);
+%                 max_D=max(D);
+%                 mu=diag(max_D-min_D)*randn(d,K)+repmat(min_D',1,K);
+%                 sigma=diag(max_D-min_D+1)*0.5*(ones(d,K)+rand(d,K));
+                
+                %random permutation
+                mu=D(randperm(size(D,1),K),:)';
+                sigma=repmat(var(D)',1,K);
                 p=rand(K,1);
                 p=p/sum(p);
                 gmm_FG{iter}=EM(D',K,mu,sigma,p,2000,0.001);
@@ -73,7 +77,7 @@ for tK=1:length(allK)
         for t_BG=1:5
             for t_FG=1:5
                 [result,error(td,t_BG,t_FG)]=evalClass_GMM(testFeature(:,1:alld(td))',K,alld(td),p_BG,gmm_BG{t_BG},p_FG,gmm_FG{t_FG},mask);
-                disp([num2str(td) '/' num2str(length(alld)) ';iter ' num2str(t_BG*5-5+t_FG) '/25 ']);
+                disp([num2str(tK)num2str(td) '/' num2str(length(alld)) ';iter ' num2str(t_BG*5-5+t_FG) '/25 ']);
                 %imshow(result);
                 %pause(0.5);
                 %imwrite(result,['result_K' num2str(all(tK)) '_D' num2str(alld(td)) '_B' num2str(t_BG) '_F' num2str(t_FG) '_' num2str(error(td,t_BG,t_FG)) '.bmp']);
