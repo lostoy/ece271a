@@ -17,10 +17,14 @@ for K=allK
             for iter=1:5
                 D=TrainsampleDCT_BG(:,1:d);
                 %random intialization
-                min_D=min(D);
-                max_D=max(D);
-                mu=diag(max_D-min_D)*randn(d,K)+repmat(min_D',1,K);
-                sigma=diag(max_D-min_D+1)*0.5*(ones(d,K)+rand(d,K));
+%                 min_D=min(D);
+%                 max_D=max(D);
+%                 mu=diag(max_D-min_D)*randn(d,K)+repmat(min_D',1,K);
+%                 sigma=diag(max_D-min_D+1)*0.5*(ones(d,K)+rand(d,K));
+
+                %random permutation
+                mu=D(randperm(size(D,1),K),:)';
+                sigma=repmat(var(D)',1,K);
                 p=rand(K,1);
                 p=p/sum(p);
                 gmm_BG{iter}=EM(D',K,mu,sigma,p,2000,0.001);
@@ -35,10 +39,14 @@ for K=allK
             for iter=1:5
                 D=TrainsampleDCT_FG(:,1:d);
                 %random intialization
-                min_D=min(D);
-                max_D=max(D);
-                mu=diag(max_D-min_D)*randn(d,K)+repmat(min_D',1,K);
-                sigma=diag(max_D-min_D+1)*0.5*(ones(d,K)+rand(d,K));
+%                 min_D=min(D);
+%                 max_D=max(D);
+%                 mu=diag(max_D-min_D)*randn(d,K)+repmat(min_D',1,K);
+%                 sigma=diag(max_D-min_D+1)*0.5*(ones(d,K)+rand(d,K));
+                
+                %random permutation
+                mu=D(randperm(size(D,1),K),:)';
+                sigma=repmat(var(D)',1,K);
                 p=rand(K,1);
                 p=p/sum(p);
                 gmm_FG{iter}=EM(D',K,mu,sigma,p,2000,0.001);
