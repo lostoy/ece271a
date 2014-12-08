@@ -92,9 +92,24 @@ for tK=1:length(allK)
     end
     errors{1,tK}=error;
 end
+save('errors.mat','errors');
+
+%%
+alld=[1 2 4 8 16 24 32 40 48 56 64];
+load('errors.mat');
+plot(alld,reshape(errors{4},11,25),'LineWidth',2)
+set(gca,'FontSize',13,'FontWeight','Bold');
+xlim([1,64]);
+title('error rate - dimension(25 classifiers)','FontSize',15,'FontWeight','Bold');
+saveas(gca, 'error_8.eps','epsc');
+
 X=zeros(11,6);
 for i=1:6
 X(:,i)=mean(reshape(errors{i},11,25),2);end;
-plot(X)
+plot(alld,X,'LineWidth',2)
+set(gca,'FontSize',13,'FontWeight','Bold');
+title('error rate - dimension(C=mixture numbers)','FontSize',15,'FontWeight','Bold');
+h_l=legend('C=1','C=2','C=4','C=8','C=16','C=32');
+set(h_l,'FontSize',14,'FontWeight','Bold');
+xlim([1,64]);
 saveas(gca, 'errors.eps','epsc');
-save('errors.mat','errors');
