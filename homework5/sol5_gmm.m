@@ -81,4 +81,10 @@ for tK=1:length(allK)
     end
     errors{1,tK}=error;
 end
+X=zeros(11,6);
+for i=1:6
+X(:,i)=mean(reshape(errors{i},11,25),2);end;
+plot(X)
+saveas(gca, 'errors.eps','epsc');
+save('errors.mat','errors');
 save('errors.mat','errors');
