@@ -23,7 +23,9 @@ for K=allK
 %                 sigma=diag(max_D-min_D+1)*0.5*(ones(d,K)+rand(d,K));
 
                 %random permutation
-                mu=D(randperm(size(D,1),K),:)';
+                mu_ind=randperm(size(D,1));
+                mu_ind=mu_ind(1:K);
+                mu=D(randperm(mu_ind,:))';
                 sigma=repmat(var(D)',1,K);
                 p=rand(K,1);
                 p=p/sum(p);
@@ -45,7 +47,10 @@ for K=allK
 %                 sigma=diag(max_D-min_D+1)*0.5*(ones(d,K)+rand(d,K));
                 
                 %random permutation
-                mu=D(randperm(size(D,1),K),:)';
+                
+                mu_ind=randperm(size(D,1));
+                mu_ind=mu_ind(1:K);
+                mu=D(randperm(mu_ind,:))';
                 sigma=repmat(var(D)',1,K);
                 p=rand(K,1);
                 p=p/sum(p);

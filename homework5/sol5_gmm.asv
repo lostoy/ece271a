@@ -23,8 +23,7 @@ for K=allK
                 sigma=diag(max_D-min_D+1)*0.5*(ones(d,K)+rand(d,K));
                 p=rand(K,1);
                 p=p/sum(p);
-                option=statset('MaxIter',2000);
-                gmm_BG{iter}=gmdistribution.fit(D,K,'CovType','diagonal','Regularize',0.001,'Options',option);
+                gmm_BG{iter}=gmdistribution.fit(D,K,'CovType','diagonal','Regularize',0.001);
                 disp([';iter ' num2str(iter) '/5 ']);
             end
         %end
@@ -43,7 +42,7 @@ for K=allK
                 p=rand(K,1);
                 p=p/sum(p);
                 option=statset('MaxIter',2000);
-                gmm_FG{iter}=gmdistribution.fit(D,K,'CovType','diagonal','Regularize',0.001,'Options',option);
+                gmm_FG{iter}=gmdistribution.fit(D,K,'CovType','diagonal','Regularize',0.001);
                 disp([';iter ' num2str(iter) '/5 ' ]);
             end
         %end
@@ -81,10 +80,4 @@ for tK=1:length(allK)
     end
     errors{1,tK}=error;
 end
-X=zeros(11,6);
-for i=1:6
-X(:,i)=mean(reshape(errors{i},11,25),2);end;
-plot(X)
-saveas(gca, 'errors.eps','epsc');
-save('errors.mat','errors');
 save('errors.mat','errors');
