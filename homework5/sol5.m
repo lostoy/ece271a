@@ -25,7 +25,7 @@ for K=allK
                 %random permutation
                 mu_ind=randperm(size(D,1));
                 mu_ind=mu_ind(1:K);
-                mu=D(randperm(mu_ind,:))';
+                mu=D(mu_ind,:)';
                 sigma=repmat(var(D)',1,K);
                 p=rand(K,1);
                 p=p/sum(p);
@@ -50,7 +50,7 @@ for K=allK
                 
                 mu_ind=randperm(size(D,1));
                 mu_ind=mu_ind(1:K);
-                mu=D(randperm(mu_ind,:))';
+                mu=D(mu_ind,:)';
                 sigma=repmat(var(D)',1,K);
                 p=rand(K,1);
                 p=p/sum(p);
