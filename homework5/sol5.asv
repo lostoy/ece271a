@@ -115,17 +115,12 @@ xlim([1,64]);
 saveas(gca, 'errors.eps','epsc');
 
 min_e=zeros(1,6);
-min_d=zeros(1,6);
-min_1=zeros(1,6);
-min_2=zeros(1,6);
+min_d=0;
+min_1=0;
+min_2=0;
 for i=1:6
-    min_e(i)=min(errors{i}(:));
-    [min_d(i),b]=find(reshape(errors{i},11,25)==min(errors{i}(:)),1,'first');
-    min_1(i)=floor((b-1)/5)+1;
-    min_2(i)=mod(b-1,5)+1;
+    [min_e(i),b]=find(reshape(errors{i},11,25)==min(errors{i}(:)),'first');
+    min_1=b/5+1;
+    min_2=mod(b,5);
 end
-[min_all,ind]=min(min_e);
-K=allK(ind);
-load(['gmm_BG_FG_' num2str(K) '.mat']);
-[result,err]=evalClass_GMM(testFeature(:,1:alld(min_d(ind)))',K,alld(min_d(ind)),p_BG,gmm_BG{min_1(ind)},p_FG,gmm_FG{min_2(ind)},mask);
-imwrite(result,['result_' num2str(err) '.bmp']);
+[m

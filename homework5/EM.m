@@ -38,7 +38,7 @@ for iter=1:max_iter
         end
         mu(:,k)=sum(D*diag(h(k,:)),2)/sum(h(k,:));
         sigma(:,k)=sum((D-repmat(mu(:,k),1,N)).^2*diag(h(k,:)),2)/sum(h(k,:));
-        sigma(:,k)=sigma(:,k)+0.0001*ones(size(D,1),1);
+        sigma(:,k)=sigma(:,k)+0.0000*ones(size(D,1),1);
         if (any((sigma(:,k))<1e-7))
 %             k1=floor(rand()*(K-1)+1);
 %             while(k1==k)
